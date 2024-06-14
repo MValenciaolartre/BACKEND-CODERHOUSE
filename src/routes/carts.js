@@ -1,107 +1,46 @@
 import express from "express";
-import fs from "fs";
-import path from "path";
+import CartManager from "../controllers/cart-manager.js";
 
 const router = express.Router();
-const cartsFilePath = path.resolve("./src/data/carts.json");
-const productsFilePath = path.resolve("./src/data/products.json");
+const cartManager = new CartManager("./src/data/carts.json");
 
-const getCarts = () => {
-  try {
-    const data = fs.readFileSync(cartsFilePath, "utf-8");
-    return JSON.parse(data) || [];
-  } catch (error) {
-    console.error("Error reading carts file:", error);
-    return [];
-  }
-};
-
-const saveCarts = (carts) => {
-  try {
-    fs.writeFileSync(cartsFilePath, JSON.stringify(carts, null, 2));
-  } catch (error) {
-    console.error("Error saving carts file:", error);
-  }
-};
-
-const getProducts = () => {
-  try {
-    const data = fs.readFileSync(productsFilePath, "utf-8");
-    return JSON.parse(data) || [];
-  } catch (error) {
-    console.error("Error reading products file:", error);
-    return [];
-  }
-};
-
-//Obtener todos los carros desde carts.json
-router.get("/", (req, res) => {
-  const { limit } = req.query;
-  const carts = getCarts();
-  if (limit) {
-    res.json(carts.slice(0, limit));
-  } else {
-    res.json(carts);
-  }
-})
-
-
-//Crea un nuevo carrito
-router.post("/", (req, res) => {
-  const carts = getCarts();
-  const id =
-    (carts.length ? Math.max(...carts.map((c) => parseInt(c.id))) : 0) + 1;
-  const newCart = { id: id.toString(), products: [] };
-  carts.push(newCart);
-  saveCarts(carts);
-  res
-    .status(201)
-    .json({ message: `Cart with ID ${id} was successfully created`, newCart });
+//1) Creamos un nuevo carrito: 
+router.post("/", async (req, res) => {
+    try {
+        const nuevoCarrito = await cartManager.crearCarrito();
+        res.json(nuevoCarrito);
+    } catch (error) {
+        console.error("Error al crear un nuevo carrito", error);
+        res.status(500).json({ error: "Error interno del servidor" });
+    }
 });
 
-//Obtener el carrito segun el ID indicado
-router.get("/:cid", (req, res) => {
-  const carts = getCarts();
-  const cart = carts.find((c) => c.id === req.params.cid);
-  if (cart) {
-    res.json(cart.products);
-  } else {
-    res.status(404).json({
-      message: `Cart with ID ${req.params.cid} was not found`,
-    });
-  }
+//2) Listamos los productos que pertenecen a determinado carrito. 
+router.get("/:cid", async (req, res) => {
+    const cartId = parseInt(req.params.cid);
+
+    try {
+        const carrito = await cartManager.getCarritoById(cartId);
+        res.json(carrito.products);
+    } catch (error) {
+        console.error("Error al obtener el carrito", error);
+        res.status(500).json({ error: "Error interno del servidor" });
+    }
 });
 
-//Agregar un producto a un carrito segun los IDs indicados
-router.post("/:cid/product/:pid", (req, res) => {
-  const carts = getCarts();
-  const products = getProducts();
+//3) Agregar productos a distintos carritos.
+router.post("/:cid/product/:pid", async (req, res) => {
+    const cartId = parseInt(req.params.cid);
+    const productId = req.params.pid;
+    const quantity = req.body.quantity || 1;
 
-  const cart = carts.find((c) => c.id === req.params.cid);
-  if (!cart) {
-    return res.status(404).json({
-      message: `Cart with ID ${req.params.cid} was not found`,
-    });
-  }
-
-  const product = products.find((p) => p.id === req.params.pid);
-  if (!product) {
-    return res.status(404).json({
-      message: `Product with ID ${req.params.pid} was not found`,
-    });
-  }
-
-  const productIndex = cart.products.findIndex(
-    (p) => p.product === req.params.pid
-  );
-  if (productIndex === -1) {
-    cart.products.push({ product: req.params.pid, quantity: 1 });
-  } else {
-    cart.products[productIndex].quantity += 1;
-  }
-
-  saveCarts(carts);
-  res.status(201).json(cart);
+    try {
+        const actualizarCarrito = await cartManager.agregarProductoAlCarrito(cartId, productId, quantity);
+        res.json(actualizarCarrito.products);
+    } catch (error) {
+        console.error("Error al agregar producto al carrito", error);
+        res.status(500).json({ error: "Error interno del servidor" });
+    }
 });
 
 export default router;
