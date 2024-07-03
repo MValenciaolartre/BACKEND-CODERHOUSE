@@ -39,7 +39,7 @@ const io = new Server(httpServer);
 
 
 io.on("connection", async (socket) => {
-    console.log("Un cliente se conecto"); 
+    console.log("Cliente conectado"); 
 
     
     socket.emit("productos", await productManager.getProducts());
