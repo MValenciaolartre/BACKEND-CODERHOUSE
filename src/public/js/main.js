@@ -12,11 +12,11 @@ const renderProductos = (data) => {
 
     data.forEach(item => {
         const card = document.createElement("div"); 
-        
+        card.classList.add("card");
         card.innerHTML = `  <p> ${item.id} </p>
                             <p> ${item.title} </p>
                             <p> ${item.price} </p>
-                            <button> Eliminar </button>
+                            <button class="boton"> Eliminar </button>
                         `
         contenedorProductos.appendChild(card); 
         //Agregamos un evento al boton de eliminar: 
