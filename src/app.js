@@ -19,17 +19,21 @@ app.set("view engine", "handlebars");
 app.set("views", "./src/views"); 
 
 //rutas
-app.use("/api/products", products);                  
-app.use("/api/carts", cartsRouter);
+app.use("/products", productsRouter);                  
+app.use("/carts", cartsRouter);
 app.use("/", viewsRouter)
 
+app.get("/", (req, res) =>{
+    res.render("home");
+})
 
-const httpServer = app.listen(PUERTO, () => {
-    console.log(`Servidor escuchando en el puerto ${PUERTO}`);
+
+const httpServer = app.listen(PORT, () => {
+    console.log(`Servidor escuchando en el puerto ${PORT}`);
 });
 
 import ProductManager from "./controllers/product-manager.js";
-const productManager = new ProductManager("./src/models/productos.json");
+const productManager = new ProductManager("./src/data/productos.json");
 
 const io = new Server(httpServer); 
 
@@ -37,21 +41,21 @@ const io = new Server(httpServer);
 io.on("connection", async (socket) => {
     console.log("Un cliente se conecto"); 
 
-    //Enviamos el array de productos: 
+    
     socket.emit("productos", await productManager.getProducts());
 
-    //Recibimos el evento "eliminarProducto" desde el cliente: 
+    
     socket.on("eliminarProducto", async (id) => {
         await productManager.deleteProduct(id);
 
-        //Le voy a enviar la lista actualizada al cliente: 
+         
         io.sockets.emit("productos", await productManager.getProducts());
     })
 
-    //Agregamos productos por medio de un formulario: 
+    
     socket.on("agregarProducto", async (producto) => {
         await productManager.addProduct(producto); 
-        //Le voy a enviar la lista actualizada al cliente: 
+       
         io.sockets.emit("productos", await productManager.getProducts());
     })
 });

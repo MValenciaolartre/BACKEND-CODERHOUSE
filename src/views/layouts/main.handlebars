@@ -1,47 +1,12 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Lista de Productos</title>
-    <link rel="stylesheet" href="/css/styles.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
-    <header>
-        <h1>Mi Tienda en Línea</h1>
-        <nav>
-            <ul>
-                <li><a href="/">Inicio</a></li>
-                <li><a href="/productos">Productos</a></li>
-                <li><a href="/contacto">Contacto</a></li>
-                <li><a href="/carrito">Carrito ({{cartItemCount}})</a></li>
-            </ul>
-        </nav>
-    </header>
-    
-    <main>
-        <section id="product-list">
-            <h2>Todos los Productos</h2>
-            <div class="product-list">
-                {{#each products}}
-                    <div class="product-item">
-                        <img src="{{this.img}}" alt="{{this.title}}">
-                        <h3>{{this.title}}</h3>
-                        <p>{{this.description}}</p>
-                        <p>Precio: {{this.price}}€</p>
-                        <p>Código: {{this.code}}</p>
-                        <p>Stock: {{this.stock}}</p>
-                        <p>Categoría: {{this.category}}</p>
-                        <button data-id="{{this.id}}">Añadir al Carrito</button>
-                    </div>
-                {{/each}}
-            </div>
-        </section>
-    </main>
-    
-    <footer>
-        <p>&copy; {{currentYear}} Mi Tienda en Línea</p>
-    </footer>
-
-    <script src="/js/main.js"></script>
+    {{{body}}}
 </body>
 </html>

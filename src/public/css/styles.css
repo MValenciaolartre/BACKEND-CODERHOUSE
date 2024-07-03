@@ -1,0 +1,96 @@
+
+body {
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #acb4bd;
+}
+
+h1, h2 {
+    text-align: center;
+    color: #343a40;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+#contenedorProductos {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin: 20px 0;
+}
+
+/* Product Card Styles */
+#contenedorProductos .card {
+    background-color: #fff;
+    border: 1px solid #dee2e6;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin: 10px;
+    padding: 15px;
+    width: 200px;
+    text-align: center;
+    transition: transform 0.2s;
+}
+
+#contenedorProductos .card:hover {
+    transform: translateY(-5px);
+}
+
+#contenedorProductos .card img {
+    max-width: 100%;
+    border-radius: 5px 5px 0 0;
+}
+
+#contenedorProductos .card p {
+    margin: 10px 0;
+    color: #495057;
+}
+
+#contenedorProductos .card button {
+    background-color: #dc3545;
+    border: none;
+    border-radius: 5px;
+    color: #fff;
+    cursor: pointer;
+    padding: 10px;
+    transition: background-color 0.2s;
+}
+
+#contenedorProductos .card button:hover {
+    background-color: #c82333;
+}
+
+/* Form Styles */
+form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 20px 0;
+}
+
+form input, form select, form button {
+    margin: 5px;
+    padding: 10px;
+    width: 80%;
+    max-width: 400px;
+    border: 1px solid #dee2e6;
+    border-radius: 5px;
+    font-size: 1rem;
+}
+
+form button {
+    background-color: #28a745;
+    border: none;
+    color: #fff;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+form button:hover {
+    background-color: #218838;
+}

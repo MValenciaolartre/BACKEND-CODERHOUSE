@@ -1,17 +1,5 @@
 [
   {
-    "title": "Smartphone",
-    "description": "Última generación con cámara de 108MP",
-    "price": "999",
-    "img": "Sin Imagen",
-    "code": "xyz789",
-    "stock": "200",
-    "category": "Electrónica",
-    "status": true,
-    "thumbnails": [],
-    "id": 2
-  },
-  {
     "title": "Laptop",
     "description": "Con pantalla 4K y 16GB de RAM",
     "price": "1500",
