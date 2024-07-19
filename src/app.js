@@ -4,6 +4,9 @@ import { Server } from "socket.io";
 import productsRouter from "./routes/products.js";
 import viewsRouter from "./routes/views.router.js";
 import cartsRouter from "./routes/carts.js";
+import "./database.js"
+
+
 
 const app = express();
 const PORT = 8080;
@@ -32,7 +35,7 @@ const httpServer = app.listen(PORT, () => {
     console.log(`Servidor escuchando en el puerto ${PORT}`);
 });
 
-import ProductManager from "./controllers/product-manager.js";
+import ProductManager from "./dao/fs/product-manager.js";
 const productManager = new ProductManager("./src/data/productos.json");
 
 const io = new Server(httpServer); 

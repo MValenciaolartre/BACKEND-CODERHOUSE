@@ -1,7 +1,7 @@
 import express from "express";
 const router = express.Router();
 
-import ProductManager from "../controllers/product-manager.js";
+import ProductManager from "../dao/fs/product-manager.js";
 const productManager = new ProductManager("./src/data/productos.json");
 
 // Ruta para obtener todos los productos, con opción de limitar el número de resultados
