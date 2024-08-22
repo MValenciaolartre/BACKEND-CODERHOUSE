@@ -6,5 +6,10 @@
 <h2> Productos</h2>
 <div id="contenedorProductos"></div>
 
+<h1>Bienvenido, {{usuario}} !! </h1>
+<form action="/api/sessions/logout" method="POST">
+    <button type="submit"> Logout </button>
+</form>
+
 <script src="https://cdn.socket.io/4.7.4/socket.io.min.js"></script>
 <script src="js/main.js"></script>

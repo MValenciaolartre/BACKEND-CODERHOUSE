@@ -5,16 +5,23 @@ import productsRouter from "./routes/products.js";
 import viewsRouter from "./routes/views.router.js";
 import cartsRouter from "./routes/carts.js";
 import "./database.js"
-
+import sessionRouter from "./routes/session.router.js";
+import passport from "passport";
+import initializePassport from "./config/passport.config.js";
+import cookieParser from "cookie-parser";
 
 
 const app = express();
 const PORT = 8080;
 
+
 // Middleware
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(express.static("./src/public")); 
+app.use(passport.initialize());
+initializePassport();
+app.use(cookieParser());
 
 //Express-Handlebars
 app.engine("handlebars", engine()); 
@@ -25,6 +32,7 @@ app.set("views", "./src/views");
 app.use("/products", productsRouter);                  
 app.use("/carts", cartsRouter);
 app.use("/", viewsRouter)
+app.use("/api/sessions", sessionRouter);
 
 app.get("/", (req, res) =>{
     res.render("home");
